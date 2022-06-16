@@ -1,11 +1,11 @@
-## nimblePackagesHtml.nim
+## nimbleDirectoryHtml.nim
 ## Nimble Packages Directory XML to HTML
 ## Author: Sergio Lima
 ## Created at: Jun, 16 2022
 ## How to compile for Linux:
-##   nimblePackagesHtml$ nim c -d:ssl --verbosity:0 --hints:off -d:danger -d:lto --opt:speed src/nimblePackagesHtml.nim
+##   nimbleDirectoryHtml$ nim c -d:ssl --verbosity:0 --hints:off -d:danger -d:lto --opt:speed src/nimbleDirectoryHtml.nim
 ## How to run
-##   ./src/nimblePackagesHtml
+##   ./src/nimbleDirectoryHtml
 
 import httpClient, xml, xml/selector
 
@@ -22,17 +22,23 @@ proc downloadXmlFromNimbleDir(url, xmlFileName: string) =
   except IOError as err:
     echo("Failed to download: " & err.msg)
 
-proc readXmlFile(xmlFileName: string) =
-  let xmlItemFields = 4
-  var xml = q($system.readFile(xmlFileName))
-  var seqXmlItems: seq[XmlNode]
-  var arrayXmlItemFields = xml.select("item")
+proc buildHTMLTableLine(seqXmlItems: seq[XmlNode] ) =
+    var pkgName = seqXmlItems[0].text
+    var pkgDescription = seqXmlItems[1].text
+    var pkgLink = seqXmlItems[2].text
+    var pkgUpdatedAt = seqXmlItems[4].text
+    echo "<tr>"
+    echo "  <td>" & pkgName & "</td>"
+    echo "  <td>" & pkgDescription & "</td>"
+    echo "  <td><link><a href=\"" & pkgLink & "\" target=\"_blank\">" & pkgLink & "</a></link></td>"
+    echo "  <td>" & pkgUpdatedAt & "</td>"
+    echo "</tr>"
 
+proc readXmlFile(xmlFileName: string) =
+  var xml = q($system.readFile(xmlFileName))
+  var arrayXmlItemFields = xml.select("item")
   for item in 0..arrayXmlItemFields.len-1:
-    echo("-------------------------------------------")
-    seqXmlItems = arrayXmlItemFields[0].select("^channel^item")
-    for field in 0..xmlItemFields:
-      echo seqXmlItems[field]
+    buildHTMLTableLine(arrayXmlItemFields[item].select("^channel^item"))
 
 when isMainModule:
   downloadXmlFromNimbleDir(url, xmlFileName)
