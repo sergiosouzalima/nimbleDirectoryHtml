@@ -22,12 +22,15 @@ proc downloadXmlFromNimbleDir(url, xmlFileName: string) =
   except IOError as err:
     echo("Failed to download: " & err.msg)
 
-proc writeHTMLTableRow(seqXmlItems: seq[XmlNode] ): string =
-    var pkgName = seqXmlItems[0].text
+func updatedAtFormat(updatedAt: string):string =
+  var updatedSplit = updatedAt.split
+  return updatedSplit[1] & "/" & updatedSplit[2] & "/" & updatedSplit[3] & " " & updatedSplit[4]
+
+func writeHTMLTableRow(seqXmlItems: seq[XmlNode] ): string =
     var pkgDescription = seqXmlItems[1].text
     var pkgLink = seqXmlItems[2].text
     var pkgShowLink = pkgLink.split("/")[4]
-    var pkgUpdatedAt = seqXmlItems[4].text
+    var pkgUpdatedAt = seqXmlItems[4].text.updatedAtFormat
     result &= "<tr>\n"
     result &= "  <td><link><a href=\"" & pkgLink & "\" target=\"_blank\">" & pkgShowLink & "</a></link></td>\n"
     result &= "  <td class=\"cell-breakWord\">" & pkgDescription & "</td>\n"
