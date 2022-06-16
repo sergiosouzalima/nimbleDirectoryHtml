@@ -7,7 +7,7 @@
 ## How to run
 ##   ./src/nimbleDirectoryHtml
 
-import httpClient, xml, xml/selector
+import httpClient, xml, xml/selector, strutils
 
 let url = "https://nimble.directory/packages.xml"
 let xmlFileName = "assets/nimble_packages.xml"
@@ -26,11 +26,11 @@ proc writeHTMLTableRow(seqXmlItems: seq[XmlNode] ): string =
     var pkgName = seqXmlItems[0].text
     var pkgDescription = seqXmlItems[1].text
     var pkgLink = seqXmlItems[2].text
+    var pkgShowLink = pkgLink.split("/")[4]
     var pkgUpdatedAt = seqXmlItems[4].text
     result &= "<tr>\n"
-    result &= "  <td>" & pkgName & "</td>\n"
-    result &= "  <td font-size: 1.15rem;>" & pkgDescription & "</td>\n"
-    result &= "  <td><link><a href=\"" & pkgLink & "\" target=\"_blank\">" & pkgLink & "</a></link></td>\n"
+    result &= "  <td><link><a href=\"" & pkgLink & "\" target=\"_blank\">" & pkgShowLink & "</a></link></td>\n"
+    result &= "  <td class=\"cell-breakWord\">" & pkgDescription & "</td>\n"
     result &= "  <td>" & pkgUpdatedAt & "</td>\n"
     result &= "</tr>"
 
