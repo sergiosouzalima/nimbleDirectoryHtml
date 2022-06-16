@@ -22,24 +22,28 @@ proc downloadXmlFromNimbleDir(url, xmlFileName: string) =
   except IOError as err:
     echo("Failed to download: " & err.msg)
 
-proc buildHTMLTableLine(seqXmlItems: seq[XmlNode] ) =
+proc writeHTMLTableRow(seqXmlItems: seq[XmlNode] ): string =
     var pkgName = seqXmlItems[0].text
     var pkgDescription = seqXmlItems[1].text
     var pkgLink = seqXmlItems[2].text
     var pkgUpdatedAt = seqXmlItems[4].text
-    echo "<tr>"
-    echo "  <td>" & pkgName & "</td>"
-    echo "  <td>" & pkgDescription & "</td>"
-    echo "  <td><link><a href=\"" & pkgLink & "\" target=\"_blank\">" & pkgLink & "</a></link></td>"
-    echo "  <td>" & pkgUpdatedAt & "</td>"
-    echo "</tr>"
+    result &= "<tr>\n"
+    result &= "  <td>" & pkgName & "</td>\n"
+    result &= "  <td font-size: 1.15rem;>" & pkgDescription & "</td>\n"
+    result &= "  <td><link><a href=\"" & pkgLink & "\" target=\"_blank\">" & pkgLink & "</a></link></td>\n"
+    result &= "  <td>" & pkgUpdatedAt & "</td>\n"
+    result &= "</tr>"
 
-proc readXmlFile(xmlFileName: string) =
+proc createHtmlItemsFromXML(xmlFileName: string) =
   var xml = q($system.readFile(xmlFileName))
   var arrayXmlItemFields = xml.select("item")
+  let itemsFile = open("items.html", fmWrite)
+  defer: itemsFile.close()
   for item in 0..arrayXmlItemFields.len-1:
-    buildHTMLTableLine(arrayXmlItemFields[item].select("^channel^item"))
+    let seqXmlItems = arrayXmlItemFields[item].select("^channel^item")
+    let strHtmlLine = writeHTMLTableRow(seqXmlItems)
+    itemsFile.writeLine(strHtmlLine)
 
 when isMainModule:
   downloadXmlFromNimbleDir(url, xmlFileName)
-  readXmlFile(xmlFileName)
+  createHtmlItemsFromXML(xmlFileName)
