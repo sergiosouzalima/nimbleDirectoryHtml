@@ -1,7 +1,7 @@
 ## nimbleDirectoryHtml.nim
 ## Nimble Packages Directory XML to HTML
 ## Author: Sergio Lima
-## Created at: Jun, 16 2022
+## Created at: Jun, 20 2022
 ## How to compile for Linux:
 ##   nimbleDirectoryHtml$ nim c -d:ssl --verbosity:0 --hints:off -d:danger -d:lto --opt:speed src/nimbleDirectoryHtml.nim
 ## How to run
