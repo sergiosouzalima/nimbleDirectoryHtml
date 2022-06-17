@@ -8,23 +8,30 @@
 ##   ./src/nimbleDirectoryHtml
 
 import httpClient, xml, xml/selector, strutils
+import htmlText
 
 let url = "https://nimble.directory/packages.xml"
 let xmlFileName = "assets/nimble_packages.xml"
+let htmlFileName = "index.html"
 
-proc downloadXmlFromNimbleDir(url, xmlFileName: string) =
-  var client = newHttpClient()
-  try:
-    var file = system.open(xmlFileName, fmWrite)
-    defer: file.close()
-    file.write(client.getContent(url))
-    echo("Success - downloaded to " & xmlFileName)
-  except IOError as err:
-    echo("Failed to download: " & err.msg)
+proc writeMessageToUser(messageToUser: string) =
+  echo ""
+  echo messageToUser
 
 func updatedAtFormat(updatedAt: string):string =
   var updatedSplit = updatedAt.split
   return updatedSplit[1] & "/" & updatedSplit[2] & "/" & updatedSplit[3] & " " & updatedSplit[4]
+
+proc downloadXmlFromNimbleDir(url, xmlFileName: string) =
+  var client = newHttpClient()
+  var messageToUser = "XML downloaded to " & xmlFileName
+  try:
+    var file = system.open(xmlFileName, fmWrite)
+    defer: file.close()
+    file.write(client.getContent(url))
+  except IOError as err:
+    messageToUser = "Failed to download XML: " & err.msg
+  writeMessageToUser(messageToUser)
 
 func writeHTMLTableRow(seqXmlItems: seq[XmlNode] ): string =
     var pkgDescription = seqXmlItems[1].text
@@ -37,16 +44,46 @@ func writeHTMLTableRow(seqXmlItems: seq[XmlNode] ): string =
     result &= "  <td>" & pkgUpdatedAt & "</td>\n"
     result &= "</tr>"
 
-proc createHtmlItemsFromXML(xmlFileName: string) =
+proc writeHtmlBeforeItems(htmlFileName: string) =
+  var messageToUser = "HTML file created (before items)."
+  let indexHtmlFile = open(htmlFileName, fmWrite)
+  defer: indexHtmlFile.close()
+  try:
+    indexHtmlFile.writeLine(htmlPagePart1())
+    indexHtmlFile.writeLine(htmlPagePart2())
+    indexHtmlFile.writeLine(htmlPagePart3())
+  except IOError as err:
+    messageToUser = "Failed to create HTML (before items): " & err.msg
+  writeMessageToUser(messageToUser)
+
+proc writeHtmlItemsFromXML(xmlFileName: string) =
+  var messageToUser = "HTML file created (items)."
   var xml = q($system.readFile(xmlFileName))
   var arrayXmlItemFields = xml.select("item")
-  let itemsFile = open("items.html", fmWrite)
-  defer: itemsFile.close()
-  for item in 0..arrayXmlItemFields.len-1:
-    let seqXmlItems = arrayXmlItemFields[item].select("^channel^item")
-    let strHtmlLine = writeHTMLTableRow(seqXmlItems)
-    itemsFile.writeLine(strHtmlLine)
+  try:
+    let itemsFile = open(htmlFileName, fmAppend)
+    defer: itemsFile.close()
+    for item in 0..arrayXmlItemFields.len-1:
+      let seqXmlItems = arrayXmlItemFields[item].select("^channel^item")
+      let strHtmlLine = writeHTMLTableRow(seqXmlItems)
+      itemsFile.writeLine(strHtmlLine)
+  except IOError as err:
+    messageToUser = "Failed to create HTML (items):: " & err.msg
+  writeMessageToUser(messageToUser)
+
+proc writeHtmlAfterItems(htmlFileName: string) =
+  var messageToUser = "HTML file created (after items)."
+  try:
+    let indexHtmlFile = open(htmlFileName, fmAppend)
+    defer: indexHtmlFile.close()
+    indexHtmlFile.writeLine(htmlPagePart4())
+  except IOError as err:
+    messageToUser = "Failed to create HTML (after items):: " & err.msg
+  writeMessageToUser(messageToUser)
 
 when isMainModule:
   downloadXmlFromNimbleDir(url, xmlFileName)
-  createHtmlItemsFromXML(xmlFileName)
+  writeHtmlBeforeItems(htmlFileName)
+  writeHtmlItemsFromXML(xmlFileName)
+  writeHtmlAfterItems(htmlFileName)
+  writeMessageToUser("HTML file successfully generated: " & htmlFileName)
