@@ -62,11 +62,6 @@ func htmlPagePart3*: string =
     </header>
 
     <main>
-
-      <article>
-        Nim packages data set available <a href="https://nimble.directory/" target="_blank">here</a>.
-      </article>
-
       <div class="blog-item">
         <table>
           <thead>
@@ -76,6 +71,10 @@ func htmlPagePart4*: string =
   return """
         </tbody>
       </table>
+
+      <article>
+        Nim packages data set available <a href="https://nimble.directory/" target="_blank">here</a>.
+      </article>
   </main>
   <footer>
     <p>
