@@ -84,7 +84,7 @@ proc htmlPagePart4*: string =
 
       <article>
         This website was last updated on $# <br />
-        Nim packages dataset available <a href="https://nimble.directory/" target="_blank">here</a>.
+        Nim packages dataset available <a href="https://nimble.directory/packages.xml" target="_blank">here</a>.
       </article>
   </main>
   <footer>

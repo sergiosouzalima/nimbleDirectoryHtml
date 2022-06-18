@@ -13,7 +13,7 @@ import htmlText
 
 let url = "https://nimble.directory/packages.xml"
 let xmlFile = "assets/packages.xml"
-let htmlFile = "index.html"
+let htmlFile = "public/index.html"
 
 proc writeMessageToUser(messageToUser: string) =
   echo messageToUser
