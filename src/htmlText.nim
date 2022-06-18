@@ -97,5 +97,5 @@ proc htmlPagePart4*: string =
 </body>
 
 </html>
-""".format(strCurrentDate)
-  return strHtml
+"""
+  return strHtml.format(strCurrentDate)
