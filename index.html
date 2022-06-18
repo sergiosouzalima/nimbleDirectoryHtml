@@ -9,23 +9,26 @@
   <title>Home Page | Nimble Packages Directory</title>
   <meta name="description" content="Nimble Packages Directory." />
   <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css" />
-  <link rel="stylesheet" href="assets/css/style.css" />
 
-  <link rel="icon" href="assets/images/favicon.png" />
-  <link rel="apple-touch-icon" href="assets/images/favicon.png" />
-
-  <!-- Facebook integration -->
-  <meta property="og:title" content="Home Page" />
-  <meta property="og:url" content="https://sergiosouzalima.dev" />
-  <meta property="og:type" content="article" />
-  <meta property="og:site_name" content="sergiosouzalima.dev" />
-  <meta property="og:description" content="Nimble Packages Directory." />
-
-  <!-- Twitter integration -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Home Page" />
-  <meta name="twitter:url" content="sergiosouzalima.dev" />
-  <meta name="twitter:description" content="Nimble Packages Directory." />
+  <style>
+    /* Dark theme */
+    :root {
+      --bg: #212121;
+      --accent-bg: #2b2b2b;
+      --text: #dcdcdc;
+      --text-light: #ababab;
+      --border: #666;
+      --accent: #ffb300;
+      --code: #f06292;
+      --preformatted: #ccc;
+      --disabled: #111;
+    }
+    /* Add a bit of transparancy so light media isn't so glaring in dark mode */
+    img,
+    video {
+      opacity: 0.8;
+    }
+  </style>
 </head>
 
   <body>
@@ -39,10 +42,15 @@
       </nav>
 
       <h1>Nim Package Directory</h1>
-      <p>Are you a Nim 👑 developer? Search for packages or jump to a package page.</p>
+      <p>Are you a 👑 Nim developer? Search for packages or jump to a package page.</p>
     </header>
 
     <main>
+
+      <article>
+        Nim packages data set available <a href="https://nimble.directory/" target="_blank">here</a>.
+      </article>
+
       <div class="blog-item">
         <table>
           <thead>
@@ -986,6 +994,11 @@
   <td><link><a href="https://nimble.directory/pkg/splitmix64" target="_blank">splitmix64</a></link></td>
   <td class="cell-breakWord">Tiny random number generator.</td>
   <td>17/Jun/2022 04:16:12</td>
+</tr>
+<tr>
+  <td><link><a href="https://nimble.directory/pkg/anano" target="_blank">anano</a></link></td>
+  <td class="cell-breakWord">Another nanoID implementation for nim</td>
+  <td>18/Jun/2022 05:46:51</td>
 </tr>
         </tbody>
       </table>

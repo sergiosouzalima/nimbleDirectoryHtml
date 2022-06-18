@@ -1,3 +1,11 @@
+## Program name........: htmlText.nim
+## Program description.: Provides index.html page in parts.
+## Author..............: Sergio Lima
+## Created at..........: Jun, 18 2022
+## How to compile:
+##   nimbleDirectoryHtml$ nim c -d:ssl --verbosity:0 --hints:off -d:danger -d:lto --opt:speed src/nimbleDirectoryHtml.nim
+## How to run
+##   ./src/nimbleDirectoryHtml
 
 func htmlPagePart1*: string =
   return """
@@ -15,23 +23,26 @@ func htmlPagePart2*: string =
   <title>Home Page | Nimble Packages Directory</title>
   <meta name="description" content="Nimble Packages Directory." />
   <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css" />
-  <link rel="stylesheet" href="assets/css/style.css" />
 
-  <link rel="icon" href="assets/images/favicon.png" />
-  <link rel="apple-touch-icon" href="assets/images/favicon.png" />
-
-  <!-- Facebook integration -->
-  <meta property="og:title" content="Home Page" />
-  <meta property="og:url" content="https://sergiosouzalima.dev" />
-  <meta property="og:type" content="article" />
-  <meta property="og:site_name" content="sergiosouzalima.dev" />
-  <meta property="og:description" content="Nimble Packages Directory." />
-
-  <!-- Twitter integration -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Home Page" />
-  <meta name="twitter:url" content="sergiosouzalima.dev" />
-  <meta name="twitter:description" content="Nimble Packages Directory." />
+  <style>
+    /* Dark theme */
+    :root {
+      --bg: #212121;
+      --accent-bg: #2b2b2b;
+      --text: #dcdcdc;
+      --text-light: #ababab;
+      --border: #666;
+      --accent: #ffb300;
+      --code: #f06292;
+      --preformatted: #ccc;
+      --disabled: #111;
+    }
+    /* Add a bit of transparancy so light media isn't so glaring in dark mode */
+    img,
+    video {
+      opacity: 0.8;
+    }
+  </style>
 </head>
 """
 func htmlPagePart3*: string =
@@ -47,10 +58,15 @@ func htmlPagePart3*: string =
       </nav>
 
       <h1>Nim Package Directory</h1>
-      <p>Are you a Nim 👑 developer? Search for packages or jump to a package page.</p>
+      <p>Are you a 👑 Nim developer? Search for packages or jump to a package page.</p>
     </header>
 
     <main>
+
+      <article>
+        Nim packages data set available <a href="https://nimble.directory/" target="_blank">here</a>.
+      </article>
+
       <div class="blog-item">
         <table>
           <thead>

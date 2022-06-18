@@ -14,3 +14,4 @@ requires "nim >= 1.6.6"
 requires httpClient
 requires xml
 requires xml/selector
+requires strutils

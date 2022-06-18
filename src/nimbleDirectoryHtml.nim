@@ -1,8 +1,9 @@
-## nimbleDirectoryHtml.nim
-## Nimble Packages Directory XML to HTML
-## Author: Sergio Lima
-## Created at: Jun, 20 2022
-## How to compile for Linux:
+## Program name........: nimbleDirectoryHtml.nim
+## Program description.: Generates an index.html page, based on
+##                       Nimble ackages Directory (https://nimble.directory/packages.xml).
+## Author..............: Sergio Lima
+## Created at..........: Jun, 18 2022
+## How to compile:
 ##   nimbleDirectoryHtml$ nim c -d:ssl --verbosity:0 --hints:off -d:danger -d:lto --opt:speed src/nimbleDirectoryHtml.nim
 ## How to run
 ##   ./src/nimbleDirectoryHtml
@@ -11,11 +12,10 @@ import httpClient, xml, xml/selector, strutils
 import htmlText
 
 let url = "https://nimble.directory/packages.xml"
-let xmlFileName = "assets/nimble_packages.xml"
+let xmlFileName = "assets/packages.xml"
 let htmlFileName = "index.html"
 
 proc writeMessageToUser(messageToUser: string) =
-  echo ""
   echo messageToUser
 
 func updatedAtFormat(updatedAt: string):string =
@@ -86,4 +86,4 @@ when isMainModule:
   writeHtmlBeforeItems(htmlFileName)
   writeHtmlItemsFromXML(xmlFileName)
   writeHtmlAfterItems(htmlFileName)
-  writeMessageToUser("HTML file successfully generated: " & htmlFileName)
+  writeMessageToUser("HTML file successfully generated: " & htmlFileName & "\n")
