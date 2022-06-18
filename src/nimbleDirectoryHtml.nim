@@ -1,5 +1,5 @@
 ## Program name........: nimbleDirectoryHtml.nim
-## Program description.: Generates an index.html page, based on
+## Program description.: Creates index.html page, based on
 ##                       Nimble packages Directory (https://nimble.directory/packages.xml).
 ## Author..............: Sergio Lima
 ## Created at..........: Jun, 18 2022
