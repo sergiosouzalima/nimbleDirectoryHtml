@@ -7,6 +7,8 @@
 ## How to run
 ##   ./src/nimbleDirectoryHtml
 
+import strutils, std/[times]
+
 func htmlPagePart1*: string =
   return """
 <!DOCTYPE html>
@@ -65,15 +67,24 @@ func htmlPagePart3*: string =
       <div class="blog-item">
         <table>
           <thead>
+            <tr>
+              <th>Packages</th>
+              <th>Description</th>
+              <th>Updated at</th>
+            </tr>
+          </thead>
+          <tbody>
   """
 
-func htmlPagePart4*: string =
-  return """
+proc htmlPagePart4*: string =
+  let strCurrentDate: string = now().format("yyyy-MM-dd")
+  let strHtml = """
         </tbody>
       </table>
 
       <article>
-        Nim packages data set available <a href="https://nimble.directory/" target="_blank">here</a>.
+        This website was last updated on $# <br />
+        Nim packages dataset available <a href="https://nimble.directory/" target="_blank">here</a>.
       </article>
   </main>
   <footer>
@@ -86,4 +97,5 @@ func htmlPagePart4*: string =
 </body>
 
 </html>
-"""
+""".format(strCurrentDate)
+  return strHtml
