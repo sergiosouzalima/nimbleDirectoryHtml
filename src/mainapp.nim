@@ -1,18 +1,18 @@
-## Program name........: nimbleDirectoryHtml.nim
+## Program name........: mainapp.nim
 ## Program description.: Creates index.html page, based on
 ##                       Nimble packages Directory (https://nimble.directory/packages.xml).
 ## Author..............: Sergio Lima
 ## Created at..........: Jun, 18 2022
 ## How to compile:
-##   nimbleDirectoryHtml$ nim c -d:ssl --verbosity:0 --hints:off -d:danger -d:lto --opt:speed src/nimbleDirectoryHtml.nim
+##   $ nim c -d:ssl --verbosity:0 --hints:off -d:danger -d:lto --opt:speed src/mainapp.nim
 ## How to run
-##   ./src/nimbleDirectoryHtml
+##   ./src/mainapp
 
 import httpClient, xml, xml/selector, strutils
 import htmlText
 
 let url = "https://nimble.directory/packages.xml"
-let xmlFile = "assets/packages.xml"
+let xmlFile = "public/packages.xml"
 let htmlFile = "public/index.html"
 
 proc writeMessageToUser(messageToUser: string) =
